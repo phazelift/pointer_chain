@@ -21,10 +21,11 @@ struct s_nodes {
 	struct s_node* current;
 };
 
-#define DEFAULT_NODES (struct s_nodes){ .stackmode= false, .count= 0, .first= NULL, .current= NULL }
+#define DEFAULT_NODES (struct s_nodes){ .count= 0, .first= NULL, .current= NULL }
 
 
-struct s_nodes* newNodes( bool );
+struct s_nodes* newNodes();
+struct s_nodes* newStack();
 static void addFirstNode( struct s_nodes*, struct s_node* );
 static void addNextNode( struct s_nodes*, struct s_node* );
 struct s_node* addNode( struct s_nodes*, void* );

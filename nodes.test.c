@@ -4,10 +4,19 @@
 #include "./nodes.h"
 
 
+char** createStrings()
+{
+	char** strPtrArr = (char**) malloc( sizeof(char*) * 3 );
+	strPtrArr[0] = createString( "Hola" );
+	strPtrArr[1] = createString( "Mundo" );
+	strPtrArr[2] = createString( "!" );
+	return strPtrArr;
+}
+
+
 //
 //	TESTS ARE IN SEQUENTIAL ORDER, APPLY CHANGE WITH CARE
 //
-
 
 void testNodesInitialized( struct s_nodes* nodes )
 {
@@ -42,13 +51,11 @@ void loopNodes( struct s_nodes* nodes )
 
 void testStackMode()
 {
-	char* str[3] = {
-		 createString( "Hola" )
-		,createString( "Mundo" )
-		,createString( "!" )
-	};
+	puts( "starting test stackmode" );
 
-	struct s_nodes* nodes = newNodes( true );
+	char** str = createStrings();
+
+	struct s_nodes* nodes = newStack();
 
 	pushNode( nodes, str[0] );
 	assert(
@@ -97,6 +104,7 @@ void testStackMode()
 
 	for ( int i = 0; i < 3; i++ ) free( str[i] );
 	free( nodes );
+	puts( "done testing stackmode\n" );
 }
 
 
@@ -233,15 +241,16 @@ void testResetNodes( struct s_nodes* nodes )
 }
 
 
-void testNodes( struct s_nodes* nodes )
+
+void testNodes()
 {
+	puts( "start testing nodes" );
+
+	struct s_nodes* nodes = newNodes();
+
 	testNodesInitialized( nodes );
 
-	char* str[3] = {
-		 createString( "Hola" )
-		,createString( "Mundo" )
-		,createString( "!" )
-	};
+	char** str = createStrings();
 
 	puts( "starting to test adding nodes.." );
 	testAddFirstNode( nodes, str[0] );
@@ -282,19 +291,16 @@ void testNodes( struct s_nodes* nodes )
 
 	// // cleanup strings
 	for ( int i = 0; i < 3; i++ ) free( str[i] );
+	free( nodes );
+	puts( "done testing nodes\n" );
 }
 
 
 int main()
 {
-	struct s_nodes* nodes = newNodes( false );
 
-	puts( "starting to test stackmode" );
 	testStackMode();
-	puts( "done testing stackmode" );
-
-	testNodes( nodes );
-	free( nodes );
+	testNodes();
 
 	puts( "Gratz, all tests completed successfully!" );
 	return 0;

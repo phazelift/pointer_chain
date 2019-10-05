@@ -1,15 +1,23 @@
-
 #include "nodes.h"
 
 
 
-struct s_nodes* newNodes( bool stackmode )
+struct s_nodes* newNodes()
 {
 	struct s_nodes* nodes = malloc( sizeof(struct s_node) );
 	*nodes = DEFAULT_NODES;
-	nodes->stackmode = stackmode;
+	nodes->stackmode = false;
 	return nodes;
 }
+
+
+struct s_nodes* newStack()
+{
+	struct s_nodes* nodes = newNodes();
+	nodes->stackmode = true;
+	return nodes;
+}
+
 
 
 static void addFirstNode( struct s_nodes* nodes, struct s_node* node )
@@ -21,6 +29,8 @@ static void addFirstNode( struct s_nodes* nodes, struct s_node* node )
 	nodes->current = node;
 }
 
+
+
 static void addNextNode( struct s_nodes* nodes, struct s_node* node )
 {
 	node->next = nodes->first;
@@ -29,6 +39,7 @@ static void addNextNode( struct s_nodes* nodes, struct s_node* node )
 	nodes->first->prev = node;
 	if ( nodes->stackmode ) nodes->current = node;
 }
+
 
 
 struct s_node* addNode( struct s_nodes* nodes, void* data )
@@ -88,9 +99,7 @@ void disposeNodes( struct s_nodes* nodes )
 	struct s_node** pp = &(nodes->first);
 	while ( nodes->count > 0 )
 	{
-		free( *pp );
-		nodes->count--;
-		*pp = (*pp)->next;
+		removeNode( nodes, pp );
 	}
 	*nodes = DEFAULT_NODES;
 }
