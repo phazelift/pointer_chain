@@ -1,4 +1,4 @@
 .gitignore
 /o/*
-nodes.o
-nodes.test
+pointer-chain
+pointer-chain.test

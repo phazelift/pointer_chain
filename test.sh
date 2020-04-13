@@ -1,6 +1,6 @@
 standard="-std=c99 -pedantic"
 
-projectName=nodes
+projectName=pointer_chain
 
 
 if test -f $projectName.test; then
